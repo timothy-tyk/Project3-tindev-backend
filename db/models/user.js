@@ -8,8 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.review);
       this.hasMany(models.question);
       this.belongsToMany(models.lobby, { through: "users_lobbies" });
-      this.hasMany(models.chatroom);
-      this.hasMany(models.messages);
+      this.hasMany(models.message);
     }
   }
   User.init(

@@ -6,9 +6,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.lobby);
-      this.belongsTo(models.user,{as:"menteeId", foreignKey:"menteeId"});
-      this.belongsTo(models.user,{as:"mentorId", foreignKey:"mentorId"});
-      this.hasOne(models.chatroom);
+      this.belongsTo(models.user, {
+        as: "menteeIdAlias",
+        foreignKey: "menteeId",
+      });
+      this.belongsTo(models.user, {
+        as: "mentorIdAlias",
+        foreignKey: "mentorId",
+      });
       this.hasMany(models.review);
       this.hasMany(models.message);
     }
@@ -56,14 +61,14 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
-      chatroomId:{
+      chatroomId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: "chatroom",
           key: "id",
         },
-      }
+      },
       status: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

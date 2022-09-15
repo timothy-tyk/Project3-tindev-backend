@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.user, {
-        as: "reviewerId",
+        as: "reviewerIdAlias",
         foreignKey: "reviewerId",
       });
       this.belongsTo(models.user, {
-        as: "revieweeId",
+        as: "revieweeIdAlias",
         foreignKey: "revieweeId",
       });
       this.belongsTo(models.question);
