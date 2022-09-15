@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Lobby extends Model {
     static associate(models) {
       // define association here
-      this.belongsToMany(models.lobby, { through: "users_lobbies" });
+      this.belongsToMany(models.user, { through: "users_lobbies" });
       this.hasMany(models.question);
     }
   }
