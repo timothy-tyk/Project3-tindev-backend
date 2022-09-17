@@ -1,9 +1,22 @@
+const { sequelize } = require("../db/models");
 const BaseController = require("./baseController");
 
 class UserController extends BaseController {
-  constructor(model) {
+  constructor(model, lobbyModel, usersLobbiesModel) {
     super(model);
+    this.lobbyModel = lobbyModel;
+    this.usersLobbiesModel = usersLobbiesModel;
   }
+  getOne = async (req, res) => {
+    const { userId } = req.params;
+    console.log(userId);
+    try {
+      const user = await this.model.findByPk(userId);
+      return res.json(user);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
 
   insertOne = async (req, res) => {
     const { username, email, profilepicture, bio } = req.body;
@@ -45,6 +58,44 @@ class UserController extends BaseController {
       console.log(userData);
       return res.json(userData);
     } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  getUserLobbies = async (req, res) => {
+    const { userId } = req.params;
+    console.log(userId, typeof userId);
+    try {
+      const lobbies = await this.usersLobbiesModel.findAll({
+        include: this.lobbyModel,
+        where: { userId: Number(userId) },
+      });
+      return res.json(lobbies);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  joinLobby = async (req, res) => {
+    const { userId, lobbyId } = req.params;
+    let { prevLobbies } = req.body;
+    console.log(userId, lobbyId, prevLobbies);
+    if (!prevLobbies) {
+      prevLobbies = [];
+    }
+    try {
+      const user = await this.model.findByPk(userId);
+      await user.update({ lobbiesJoin: [...prevLobbies, Number(lobbyId)] });
+      const addLobby = await this.usersLobbiesModel.create({
+        userId: userId,
+        lobbyId: lobbyId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      await user.save();
+      return res.json(user);
+    } catch (err) {
+      console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
   };
