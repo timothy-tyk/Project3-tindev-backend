@@ -21,8 +21,8 @@ const checkJwt = auth({
   issuerBaseURL: process.env.ISSUER,
 });
 //initializing controllers
-const userController = new UserController(user, users_lobbies);
-const lobbyController = new LobbyController(lobby, user);
+const userController = new UserController(user, lobby, users_lobbies);
+const lobbyController = new LobbyController(lobby, user, users_lobbies);
 //initializing routers
 const userRouter = new UserRouter(userController, checkJwt).routes();
 const lobbyRouter = new LobbyRouter(lobbyController, checkJwt).routes();
