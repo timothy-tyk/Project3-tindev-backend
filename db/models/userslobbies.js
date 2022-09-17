@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // Define separate 1-M relationships with both Sighting and Category models
+      // Define separate 1-M relationships with both User and Lobby models
       // to enable them to query junction model
       this.belongsTo(models.user);
       this.belongsTo(models.lobby);
