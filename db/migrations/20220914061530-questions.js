@@ -32,10 +32,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      chatroom_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
       status: {
         type: Sequelize.BOOLEAN,
         allowNull: false,

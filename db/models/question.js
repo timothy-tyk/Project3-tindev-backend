@@ -61,14 +61,6 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
-      chatroomId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "chatroom",
-          key: "id",
-        },
-      },
       status: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
