@@ -1,3 +1,4 @@
+const { sequelize } = require("../db/models");
 const BaseController = require("./baseController");
 
 class UserController extends BaseController {
@@ -67,6 +68,30 @@ class UserController extends BaseController {
       const lobbies = this.usersLobbiesModel.findAll();
       return res.json(lobbies);
     } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  joinLobby = async (req, res) => {
+    const { userId, lobbyId } = req.params;
+    let { prevLobbies } = req.body;
+    console.log(userId, lobbyId, prevLobbies);
+    if (!prevLobbies) {
+      prevLobbies = [];
+    }
+    try {
+      const user = await this.model.findByPk(userId);
+      await user.update({ lobbiesJoin: [...prevLobbies, lobbyId] });
+      const addLobby = await this.usersLobbiesModel.create({
+        userId: userId,
+        lobbyId: lobbyId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      await user.save();
+      return res.json(user);
+    } catch (err) {
+      console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
   };
