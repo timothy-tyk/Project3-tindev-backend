@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-class UserRouter {
+class LobbyRouter {
   constructor(controller, auth) {
     this.controller = controller;
     this.auth = auth;
@@ -9,12 +9,10 @@ class UserRouter {
   routes() {
     // we will insert routes into here later on
     router.get("/", this.controller.getAll);
-    router.get("/:userId", this.controller.getOne);
-    router.post("/", this.auth, this.controller.insertOne);
-    router.put("/", this.controller.updateOne);
-    router.get("/:userId/lobbies", this.controller.getLobbies);
+    // router.post("/", this.auth, this.controller.insertOne);
+    // router.put("/", this.controller.updateOne);
     return router;
   }
 }
 
-module.exports = UserRouter;
+module.exports = LobbyRouter;

@@ -7,7 +7,6 @@ class BaseController {
 
   getAll = async (req, res) => {
     try {
-      console.log("hello!");
       const output = await this.model.findAll();
       return res.json(output);
     } catch (err) {

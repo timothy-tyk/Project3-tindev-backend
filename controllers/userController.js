@@ -1,9 +1,20 @@
 const BaseController = require("./baseController");
 
 class UserController extends BaseController {
-  constructor(model) {
+  constructor(model, usersLobbiesModel) {
     super(model);
+    this.usersLobbiesModel = usersLobbiesModel;
   }
+  getOne = async (req, res) => {
+    const { userId } = req.params;
+    console.log(userId);
+    try {
+      const user = await this.model.findByPk(userId);
+      return res.json(user);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
 
   insertOne = async (req, res) => {
     const { username, email, profilepicture, bio } = req.body;
@@ -44,6 +55,17 @@ class UserController extends BaseController {
       });
       console.log(userData);
       return res.json(userData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  getLobbies = async (req, res) => {
+    const { userId } = req.params;
+    console.log(userId);
+    try {
+      const lobbies = this.usersLobbiesModel.findAll();
+      return res.json(lobbies);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
