@@ -23,7 +23,10 @@ class LobbyController extends BaseController {
     console.log(lobbyId);
     try {
       const questions = await this.questionModel.findAll({
+        //eager loading champion
         include: [{ model: this.userModel, as: "menteeIdAlias" }],
+        order: [["id", "ASC"]],
+        //**** */
         where: { lobbyId: Number(lobbyId) },
       });
       return res.json(questions);
