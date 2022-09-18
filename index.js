@@ -14,7 +14,7 @@ const app = express();
 
 // importing DB
 const db = require("./db/models/index");
-const { user, lobby, users_lobbies } = db;
+const { user, lobby, users_lobbies, question } = db;
 
 const checkJwt = auth({
   audience: process.env.AUDIENCE,
@@ -22,7 +22,12 @@ const checkJwt = auth({
 });
 //initializing controllers
 const userController = new UserController(user, lobby, users_lobbies);
-const lobbyController = new LobbyController(lobby, user, users_lobbies);
+const lobbyController = new LobbyController(
+  lobby,
+  user,
+  users_lobbies,
+  question
+);
 //initializing routers
 const userRouter = new UserRouter(userController, checkJwt).routes();
 const lobbyRouter = new LobbyRouter(lobbyController, checkJwt).routes();
