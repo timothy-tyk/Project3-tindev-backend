@@ -1,8 +1,10 @@
+const question = require("../db/models/question");
 const BaseController = require("./baseController");
 
 class UserController extends BaseController {
-  constructor(model) {
+  constructor(model, userModel) {
     super(model);
+    this.userModel = userModel;
   }
   //passing in questionmodel here
 
@@ -64,7 +66,12 @@ class UserController extends BaseController {
     console.log(questionIndex);
     //req.params.sightingId
     try {
-      const question = await this.model.findByPk(questionIndex);
+      const question = await this.model.findAll({
+        //eager loading champion
+        include: [{ model: this.userModel, as: "menteeIdAlias" }],
+        //**** */
+        where: { id: questionIndex },
+      });
       return res.json(question);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
@@ -72,19 +79,59 @@ class UserController extends BaseController {
   };
 
   updateOne = async (req, res) => {
-    console.log("updateone");
-    const { userId, profilepicture, username, bio } = req.body;
+    console.log("editing a qns now!");
+    //i didnt use menteeId and lobbyId cus im querying by the questionId instead
+    const { questionId, menteeId, title, details, tokensOffered, lobbyId } =
+      req.body;
     console.log(req.body);
     try {
-      const userData = await this.model.findByPk(userId);
-      console.log(userData);
-      userData.update({
-        profilepicture: profilepicture,
-        username: username,
-        bio: bio,
+      const questionData = await this.model.findByPk(questionId);
+      console.log(questionData, "questionData before update");
+      questionData.update({
+        title: title,
+        details: details,
+        tokensOffered: tokensOffered,
+        // stuff that is not updated will remain the same!
+        // menteeId: menteeId,
+        // lobbyId: lobbyId
       });
-      console.log(userData);
-      return res.json(userData);
+      console.log(questionData, "questionData after update");
+      return res.json(questionData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  updateOneMentor = async (req, res) => {
+    const { questionId, mentorId } = req.body;
+    console.log(req.body, "req body");
+    try {
+      const questionData = await this.model.findByPk(questionId);
+      console.log(questionData, "questionData before update");
+      questionData.update({
+        mentorId: mentorId,
+        status: true,
+        //change status here
+      });
+      console.log(questionData, "questionData after update");
+      return res.json(questionData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  updateOneStatus = async (req, res) => {
+    const { questionId, status } = req.body;
+    console.log(req.body, "req body");
+    try {
+      const questionData = await this.model.findByPk(questionId);
+      console.log(questionData, "questionData before update");
+      questionData.update({
+        status: status,
+        //change status here
+      });
+      console.log(questionData, "questionData after update");
+      return res.json(questionData);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }

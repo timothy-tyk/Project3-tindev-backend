@@ -24,8 +24,13 @@ const checkJwt = auth({
 });
 //initializing controllers
 const userController = new UserController(user, lobby, users_lobbies);
-const lobbyController = new LobbyController(lobby, user, users_lobbies);
-const questionController = new QuestionController(question);
+const lobbyController = new LobbyController(
+  lobby,
+  user,
+  users_lobbies,
+  question
+);
+const questionController = new QuestionController(question, user);
 //initializing routers
 const userRouter = new UserRouter(userController, checkJwt).routes();
 const lobbyRouter = new LobbyRouter(lobbyController, checkJwt).routes();
