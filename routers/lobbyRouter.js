@@ -20,6 +20,11 @@ class LobbyRouter {
     );
 
     router.get("/:lobbyId/questions", this.controller.getQuestions);
+    router.get(
+      "/:lobbyId/:lobbyName/numberOnline",
+      this.controller.getNumberOnline
+    );
+    router.put("/:lobbyId/:userId", this.controller.updateLocation);
 
     // router.post("/", this.auth, this.controller.insertOne);
     // router.put("/", this.controller.updateOne);
