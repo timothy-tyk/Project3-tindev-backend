@@ -86,6 +86,19 @@ class LobbyController extends BaseController {
       return res.status(400).json({ error: true, msg: err });
     }
   };
+
+  updateUserLocationOnLogOut = async (req, res) => {
+    const { userId } = req.body;
+    try {
+      const userData = await this.userModel.findByPk(userId);
+      userData.update({
+        location: null,
+      });
+      return res.json(userData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
 }
 
 module.exports = LobbyController;
