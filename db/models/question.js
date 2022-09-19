@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
-      status: {
+      solved: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
