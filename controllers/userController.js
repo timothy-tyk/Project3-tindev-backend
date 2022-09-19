@@ -2,20 +2,16 @@ const { sequelize } = require("../db/models");
 const BaseController = require("./baseController");
 
 class UserController extends BaseController {
-  constructor(model, lobbyModel, usersLobbiesModel, questionModel) {
+  constructor(model, lobbyModel, usersLobbiesModel) {
     super(model);
     this.lobbyModel = lobbyModel;
     this.usersLobbiesModel = usersLobbiesModel;
-    this.questionModel = questionModel;
   }
   getOne = async (req, res) => {
     const { userId } = req.params;
     console.log(userId);
     try {
-      const user = await this.model.findByPk(userId, {
-        include: this.questionModel,
-        // where: { $or: [{ menteeId: { userId } }, { mentorId: { userId } }] },
-      });
+      const user = await this.model.findByPk(userId);
       return res.json(user);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
