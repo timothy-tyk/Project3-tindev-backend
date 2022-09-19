@@ -37,6 +37,9 @@ module.exports = {
       rating: {
         type: Sequelize.FLOAT,
       },
+      location: {
+        type: Sequelize.STRING,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

@@ -48,6 +48,9 @@ module.exports = (sequelize, DataTypes) => {
       rating: {
         type: DataTypes.FLOAT,
       },
+      location: {
+        type: DataTypes.STRING,
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
