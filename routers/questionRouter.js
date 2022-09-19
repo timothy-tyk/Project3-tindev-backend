@@ -13,6 +13,7 @@ class QuestionRouter {
     router.put("/editQuestion", this.controller.updateOne);
     router.put("/updateMentor", this.controller.updateOneMentor);
     router.put("/updateStatus", this.controller.updateOneStatus);
+    router.get("/users/:userId", this.controller.getAllFromUser);
     return router;
   }
 }

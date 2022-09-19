@@ -34,7 +34,11 @@ const questionController = new QuestionController(question, user);
 //initializing routers
 const userRouter = new UserRouter(userController, checkJwt).routes();
 const lobbyRouter = new LobbyRouter(lobbyController, checkJwt).routes();
-const questionRouter = new QuestionRouter(questionController).routes();
+const questionRouter = new QuestionRouter(
+  questionController,
+  checkJwt
+).routes();
+
 // Enable CORS access to this server
 app.use(cors());
 app.use(express.json());

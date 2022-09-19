@@ -1,6 +1,8 @@
 const question = require("../db/models/question");
 const BaseController = require("./baseController");
 
+const { Op } = require("sequelize");
+
 class UserController extends BaseController {
   constructor(model, userModel) {
     super(model);
@@ -133,6 +135,21 @@ class UserController extends BaseController {
       console.log(questionData, "questionData after update");
       return res.json(questionData);
     } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  getAllFromUser = async (req, res) => {
+    const { userId } = req.params;
+    try {
+      const questions = await this.model.findAll({
+        where: {
+          [Op.or]: [{ menteeId: userId }, { mentorId: userId }],
+        },
+      });
+      return res.json(questions);
+    } catch (err) {
+      console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
   };
