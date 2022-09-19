@@ -4,12 +4,12 @@ const cors = require("cors");
 const { auth } = require("express-oauth2-jwt-bearer");
 //import controllers
 const UserController = require("./controllers/userController");
-const LobbyController = require("./controllers/lobbyController");
 const QuestionController = require("./controllers/questionController");
+const LobbyController = require("./controllers/lobbyController");
 //import routers
 const UserRouter = require("./routers/userRouter");
-const LobbyRouter = require("./routers/lobbyRouter");
 const QuestionRouter = require("./routers/questionRouter");
+const LobbyRouter = require("./routers/lobbyRouter");
 
 const PORT = 3000;
 const app = express();
@@ -23,9 +23,14 @@ const checkJwt = auth({
   issuerBaseURL: process.env.ISSUER,
 });
 //initializing controllers
-const userController = new UserController(user, lobby, users_lobbies, question);
-const lobbyController = new LobbyController(lobby, question);
-const questionController = new QuestionController(question);
+const userController = new UserController(user, lobby, users_lobbies);
+const lobbyController = new LobbyController(
+  lobby,
+  user,
+  users_lobbies,
+  question
+);
+const questionController = new QuestionController(question, user);
 //initializing routers
 const userRouter = new UserRouter(userController, checkJwt).routes();
 const lobbyRouter = new LobbyRouter(lobbyController, checkJwt).routes();
@@ -40,7 +45,7 @@ app.use(express.json());
 
 app.use("/users", userRouter);
 app.use("/lobbies", lobbyRouter);
-app.use("/questions", questionRouter);
+app.use("/question", questionRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
