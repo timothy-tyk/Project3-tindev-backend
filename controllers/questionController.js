@@ -22,7 +22,7 @@ class UserController extends BaseController {
         details: details,
         tokensOffered: tokensOffered,
         lobbyId: lobbyId,
-        status: false,
+        solved: false,
       });
       //after find a mentor, can set the mentor ID like below using mix-ins
       // await newEntry.setCategories(categoryId);
@@ -112,8 +112,7 @@ class UserController extends BaseController {
       console.log(questionData, "questionData before update");
       questionData.update({
         mentorId: mentorId,
-        status: true,
-        //change status here
+        //add a mentorId here
       });
       console.log(questionData, "questionData after update");
       return res.json(questionData);
@@ -123,14 +122,14 @@ class UserController extends BaseController {
   };
 
   updateOneStatus = async (req, res) => {
-    const { questionId, status } = req.body;
+    const { questionId } = req.body;
     console.log(req.body, "req body");
     try {
       const questionData = await this.model.findByPk(questionId);
       console.log(questionData, "questionData before update");
       questionData.update({
-        status: status,
-        //change status here
+        solved: true,
+        //change status solved here when mentorId accepts
       });
       console.log(questionData, "questionData after update");
       return res.json(questionData);
@@ -140,7 +139,10 @@ class UserController extends BaseController {
   };
 
   getAllFromUser = async (req, res) => {
+    console.log("getting all from user");
+
     const { userId } = req.params;
+    console.log(userId, "userId from req.params");
     try {
       const questions = await this.model.findAll({
         where: {

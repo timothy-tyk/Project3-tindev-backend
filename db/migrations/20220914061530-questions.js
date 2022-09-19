@@ -32,7 +32,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      status: {
+      solved: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
