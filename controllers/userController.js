@@ -1,12 +1,20 @@
 const { sequelize } = require("../db/models");
 const BaseController = require("./baseController");
+const { Op } = require("sequelize");
 
 class UserController extends BaseController {
-  constructor(model, lobbyModel, usersLobbiesModel, questionModel) {
+  constructor(
+    model,
+    lobbyModel,
+    usersLobbiesModel,
+    questionModel,
+    usersFriendsModel
+  ) {
     super(model);
     this.lobbyModel = lobbyModel;
     this.usersLobbiesModel = usersLobbiesModel;
     this.questionModel = questionModel;
+    this.usersFriendsModel = usersFriendsModel;
   }
   getOne = async (req, res) => {
     const { userId } = req.params;
@@ -68,7 +76,7 @@ class UserController extends BaseController {
 
   getUserLobbies = async (req, res) => {
     const { userId } = req.params;
-    console.log(userId, typeof userId);
+    console.log(this.usersLobbiesModel);
     try {
       const lobbies = await this.usersLobbiesModel.findAll({
         include: this.lobbyModel,
@@ -103,6 +111,23 @@ class UserController extends BaseController {
       return res.status(400).json({ error: true, msg: err });
     }
   };
+
+  // getUserFriends = async (req, res) => {
+  //   const { userId } = req.params;
+  //   console.log(userId);
+  //   console.log(this.usersFriendsModel);
+  //   try {
+  //     const friends = await this.usersFriendsModel.findAll({
+  //       where: {
+  //         [Op.or]: [{ userId1: userId }, { userId2: userId }],
+  //       },
+  //     });
+  //     return res.json(friends);
+  //   } catch (err) {
+  //     console.log(err);
+  //     return res.status(400).json({ error: true, msg: err });
+  //   }
+  // };
 }
 
 module.exports = UserController;
