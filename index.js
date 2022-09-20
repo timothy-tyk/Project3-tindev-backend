@@ -51,6 +51,15 @@ const socketIO = require("socket.io")(http, {
 });
 
 socketIO.on("connection", (socket) => {
+  //once backend receives a "join_room" message, then join (data.room), i.e. lobbyId
+  socket.on("join_room", (data) => {
+    socket.join(data.room);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("received_message", data);
+  });
+
   socket.on("reply", () => console.log("replied"));
   console.log(`⚡: ${socket.id} user just connected!`);
   socket.on("disconnect", () => {
