@@ -37,6 +37,9 @@ module.exports = {
       rating: {
         type: Sequelize.FLOAT,
       },
+      location: {
+        type: Sequelize.STRING,
+      },
       friends_list: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
       },

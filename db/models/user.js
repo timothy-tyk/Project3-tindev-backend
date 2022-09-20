@@ -59,6 +59,9 @@ module.exports = (sequelize, DataTypes) => {
       rating: {
         type: DataTypes.FLOAT,
       },
+      location: {
+        type: DataTypes.STRING,
+      },
       friendsList: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },

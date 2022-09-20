@@ -28,10 +28,8 @@ class LobbyController extends BaseController {
     console.log(lobbyId);
     try {
       const questions = await this.questionModel.findAll({
-        //eager loading champion
         include: [{ model: this.userModel, as: "menteeIdAlias" }],
         order: [["id", "ASC"]],
-        //**** */
         where: { lobbyId: Number(lobbyId) },
       });
       return res.json(questions);
@@ -42,7 +40,6 @@ class LobbyController extends BaseController {
 
   getUserAsMenteeStats = async (req, res) => {
     const { lobbyId, userId } = req.params;
-    console.log(userId);
     try {
       const output = await this.questionModel.findAll({
         where: { lobbyId: lobbyId, menteeId: userId },
@@ -55,12 +52,49 @@ class LobbyController extends BaseController {
 
   getUserAsMentorStats = async (req, res) => {
     const { lobbyId, userId } = req.params;
-    console.log(userId);
     try {
       const output = await this.questionModel.findAll({
         where: { lobbyId: lobbyId, mentorId: userId },
       });
       return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  getNumberOnline = async (req, res) => {
+    const { lobbyId, lobbyName } = req.params;
+    try {
+      const output = await this.userModel.findAll({
+        where: { location: lobbyName },
+      });
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  updateLocation = async (req, res) => {
+    const { userId, lobbyName } = req.body;
+    try {
+      const userData = await this.userModel.findByPk(userId);
+      userData.update({
+        location: lobbyName,
+      });
+      return res.json(userData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  updateUserLocationOnLogOut = async (req, res) => {
+    const { userId } = req.body;
+    try {
+      const userData = await this.userModel.findByPk(userId);
+      userData.update({
+        location: null,
+      });
+      return res.json(userData);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
