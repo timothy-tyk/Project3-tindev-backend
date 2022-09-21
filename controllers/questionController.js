@@ -13,16 +13,18 @@ class UserController extends BaseController {
   addOne = async (req, res) => {
     console.log("adding question!");
     console.log(req.body, "req body");
-    const { menteeId, title, details, tokensOffered, lobbyId } = req.body;
+    const { menteeId, title, text, tokensOffered, lobbyId, imageUrl } =
+      req.body;
     try {
       const newEntry = await this.model.create({
         //dont even need the createdat and updatedat bc migration&PSQL makes it for us automatically
         menteeId: menteeId,
         title: title,
-        details: details,
+        details: text,
         tokensOffered: tokensOffered,
         lobbyId: lobbyId,
         solved: false,
+        imgUrl: imageUrl,
       });
       //after find a mentor, can set the mentor ID like below using mix-ins
       // await newEntry.setCategories(categoryId);

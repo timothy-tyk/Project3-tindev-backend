@@ -24,6 +24,12 @@ module.exports = {
       review_content: {
         type: Sequelize.TEXT,
       },
+      role: {
+        type: Sequelize.TEXT,
+      },
+      rating: {
+        type: Sequelize.INTEGER,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
