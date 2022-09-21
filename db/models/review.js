@@ -51,6 +51,12 @@ module.exports = (sequelize, DataTypes) => {
       reviewContent: {
         type: DataTypes.TEXT,
       },
+      role: {
+        type: DataTypes.TEXT,
+      },
+      rating: {
+        type: DataTypes.INTEGER,
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
