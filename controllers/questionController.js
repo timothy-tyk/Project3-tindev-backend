@@ -71,8 +71,12 @@ class UserController extends BaseController {
     //req.params.sightingId
     try {
       const question = await this.model.findAll({
-        include: [{ model: this.userModel, as: "menteeIdAlias" }],
-
+        //eager loading champion
+        include: [
+          { model: this.userModel, as: "menteeIdAlias" },
+          { model: this.userModel, as: "mentorIdAlias" },
+        ],
+        //**** */
         where: { id: questionIndex },
       });
       return res.json(question);
@@ -150,6 +154,18 @@ class UserController extends BaseController {
           [Op.or]: [{ menteeId: userId }, { mentorId: userId }],
         },
       });
+      // let questionsData = [];
+      // questions.forEach(async (question) => {
+      //   await this.model.findAll({
+      //     include: [
+      //       { model: this.userModel, as: "menteeIdAlias" },
+      //       { model: this.userModel, as: "mentorIdAlias" },
+      //     ],
+      //     where: { id: question.id },
+      //   });
+      //   questionsData = [...questionsData, question];
+      // });
+      // return res.json(questionsData);
       return res.json(questions);
     } catch (err) {
       console.log(err);

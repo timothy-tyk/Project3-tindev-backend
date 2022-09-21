@@ -11,6 +11,17 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.question, { foreignKey: "mentorId" });
       this.belongsToMany(models.lobby, { through: "users_lobbies" });
       this.hasMany(models.message);
+      // this.belongsToMany(models.user, { through: "users_friends" });
+      // this.belongsToMany(models.user, {
+      //   as: "friends",
+      //   foreignKey: "user_id1",
+      //   through: "users_friends",
+      // });
+      // this.belongsToMany(models.user, {
+      //   as: "userFriends",
+      //   foreignKey: "user_id2",
+      //   through: "users_friends",
+      // });
     }
   }
   User.init(
@@ -51,6 +62,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       location: {
         type: DataTypes.STRING,
+      },
+      friendsList: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       createdAt: {
         type: DataTypes.DATE,

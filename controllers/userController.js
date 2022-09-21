@@ -1,5 +1,6 @@
 const { sequelize } = require("../db/models");
 const BaseController = require("./baseController");
+const { Op } = require("sequelize");
 
 class UserController extends BaseController {
   constructor(model, lobbyModel, usersLobbiesModel, questionModel) {
@@ -12,10 +13,7 @@ class UserController extends BaseController {
     const { userId } = req.params;
     console.log(userId);
     try {
-      const user = await this.model.findByPk(userId, {
-        include: this.questionModel,
-        // where: { $or: [{ menteeId: { userId } }, { mentorId: { userId } }] },
-      });
+      const user = await this.model.findByPk(userId);
       return res.json(user);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
@@ -68,7 +66,7 @@ class UserController extends BaseController {
 
   getUserLobbies = async (req, res) => {
     const { userId } = req.params;
-    console.log(userId, typeof userId);
+    console.log(this.usersLobbiesModel);
     try {
       const lobbies = await this.usersLobbiesModel.findAll({
         include: this.lobbyModel,
@@ -103,6 +101,23 @@ class UserController extends BaseController {
       return res.status(400).json({ error: true, msg: err });
     }
   };
+
+  // getUserFriends = async (req, res) => {
+  //   const { userId } = req.params;
+  //   console.log(userId);
+  //   console.log(this.usersFriendsModel);
+  //   try {
+  //     const friends = await this.usersFriendsModel.findAll({
+  //       where: {
+  //         [Op.or]: [{ userId1: userId }, { userId2: userId }],
+  //       },
+  //     });
+  //     return res.json(friends);
+  //   } catch (err) {
+  //     console.log(err);
+  //     return res.status(400).json({ error: true, msg: err });
+  //   }
+  // };
 }
 
 module.exports = UserController;

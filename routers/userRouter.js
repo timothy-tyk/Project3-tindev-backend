@@ -14,6 +14,7 @@ class UserRouter {
     router.put("/", this.controller.updateOne);
     router.get("/:userId/lobbies", this.controller.getUserLobbies);
     router.post("/:userId/joinlobby/:lobbyId", this.controller.joinLobby);
+    // router.get("/:userId/friends", this.controller.getUserFriends);
     return router;
   }
 }
