@@ -99,6 +99,32 @@ class LobbyController extends BaseController {
       return res.status(400).json({ error: true, msg: err });
     }
   };
+
+  addChatMessage = async (req, res) => {
+    const { lobbyId } = req.params;
+    const { message } = req.body;
+    console.log(lobbyId, message);
+    try {
+      const lobby = await this.model.findByPk(lobbyId);
+      const prevMessages = lobby.messages;
+      console.log(prevMessages);
+      let addMessage;
+      if (prevMessages) {
+        addMessage = await lobby.update({
+          messages: [...prevMessages, message],
+        });
+      } else {
+        addMessage = await lobby.update({
+          messages: [message],
+        });
+      }
+      addMessage.save();
+      return res.json(addMessage);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
 }
 
 module.exports = LobbyController;
