@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-class QuestionRouter {
+class MessageRouter {
   constructor(controller) {
     this.controller = controller;
   }
   routes() {
     // we will insert routes into here later on
     router.get("/", this.controller.getAll);
-    router.post("/", this.controller.addOne);
-    router.get("/:questionIndex", this.controller.getOne);
-    router.get("/user/:userId", this.controller.getAllFromUser);
+    router.get("/:questionId", this.controller.getAllFromQuestion);
+    router.post("/:questionId", this.controller.addOne);
+
     return router;
   }
 }
 
-module.exports = QuestionRouter;
+module.exports = MessageRouter;

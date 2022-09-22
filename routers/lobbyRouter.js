@@ -24,6 +24,10 @@ class LobbyRouter {
       this.controller.getUserAsMenteeStats
     );
     router.put("/logout", this.controller.updateUserLocationOnLogOut);
+
+    //general chat
+    // router.get("/:lobbyId/chat", this.controller.getChatLog);
+    router.post("/:lobbyId/chat", this.controller.addChatMessage);
     return router;
   }
 }
