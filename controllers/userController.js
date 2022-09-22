@@ -23,6 +23,7 @@ class UserController extends BaseController {
   insertOne = async (req, res) => {
     const { username, email, profilepicture, bio } = req.body;
     console.log("here");
+
     try {
       const [user, created] = await this.model.findOrCreate({
         where: { email: email },
@@ -39,6 +40,11 @@ class UserController extends BaseController {
         console.log(user);
         return res.json(user);
       }
+      if (user) {
+        user.update({ online: true });
+        user.save();
+      }
+
       return res.json(user);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
@@ -102,22 +108,26 @@ class UserController extends BaseController {
     }
   };
 
-  // getUserFriends = async (req, res) => {
-  //   const { userId } = req.params;
-  //   console.log(userId);
-  //   console.log(this.usersFriendsModel);
-  //   try {
-  //     const friends = await this.usersFriendsModel.findAll({
-  //       where: {
-  //         [Op.or]: [{ userId1: userId }, { userId2: userId }],
-  //       },
-  //     });
-  //     return res.json(friends);
-  //   } catch (err) {
-  //     console.log(err);
-  //     return res.status(400).json({ error: true, msg: err });
-  //   }
-  // };
+  addFriend = async (req, res) => {
+    const { profileId } = req.params;
+    const { userId } = req.body;
+    console.log(profileId, userId);
+    try {
+      const user = await this.model.findByPk(userId);
+      const friends = user.friendsList;
+      if (friends) {
+        await user.update({ friendsList: [...friends, profileId] });
+        await user.save();
+      } else {
+        await user.update({ friendsList: [profileId] });
+        await user.save();
+      }
+      return res.json(user);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
 }
 
 module.exports = UserController;
