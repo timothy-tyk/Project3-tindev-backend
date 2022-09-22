@@ -15,6 +15,9 @@ module.exports = {
       number_online: {
         type: Sequelize.INTEGER,
       },
+      messages: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

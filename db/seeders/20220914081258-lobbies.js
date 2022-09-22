@@ -6,12 +6,14 @@ module.exports = {
       {
         name: "FullStack",
         number_online: 6,
+        // messages: [],
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         name: "FrontEnd",
         number_online: 12,
+        // messages: [],
         created_at: new Date(),
         updated_at: new Date(),
       },
