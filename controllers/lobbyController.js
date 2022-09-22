@@ -93,6 +93,7 @@ class LobbyController extends BaseController {
       const userData = await this.userModel.findByPk(userId);
       userData.update({
         location: null,
+        online: false,
       });
       return res.json(userData);
     } catch (err) {
