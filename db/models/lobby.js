@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       numberOnline: {
         type: DataTypes.INTEGER,
       },
+      messages: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
