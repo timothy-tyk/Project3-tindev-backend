@@ -10,6 +10,7 @@ class QuestionRouter {
     router.get("/", this.controller.getAll);
     router.post("/", this.controller.addOne);
     router.get("/:questionIndex", this.controller.getOne);
+    router.get("/user/:userId", this.controller.getAllFromUser);
     return router;
   }
 }
