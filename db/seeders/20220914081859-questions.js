@@ -6,7 +6,7 @@ module.exports = {
       {
         mentee_id: 1,
         title: "How to open VSCode?",
-        details: "",
+        details: `{"blocks":[{"key":"as43o","text":"test","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}`,
         tokens_offered: 5,
         mentor_id: null,
         lobby_id: 1,
@@ -19,7 +19,7 @@ module.exports = {
       {
         mentee_id: 2,
         title: "Javascript HELP!!",
-        details: "",
+        details: `{"blocks":[{"key":"as43o","text":"test","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}`,
         tokens_offered: 25,
         mentor_id: null,
         lobby_id: 1,

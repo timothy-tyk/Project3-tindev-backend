@@ -32,8 +32,6 @@ class ReviewController extends BaseController {
   };
 
   getOne = async (req, res) => {
-    console.log("get 1 qns!");
-
     const { questionIndex } = req.params;
     console.log(questionIndex);
 
@@ -44,6 +42,24 @@ class ReviewController extends BaseController {
       });
       return res.json(question);
     } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  getAllFromUser = async (req, res) => {
+    const { userId } = req.params;
+    console.log(userId);
+    try {
+      const reviews = await this.model.findAll({
+        where: { [Op.or]: [{ reviewerId: userId }, { revieweeId: userId }] },
+        include: [
+          { model: this.userModel, as: "reviewerIdAlias" },
+          { model: this.userModel, as: "revieweeIdAlias" },
+        ],
+      });
+      return res.json(reviews);
+    } catch (err) {
+      console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
   };
