@@ -126,6 +126,23 @@ class UserController extends BaseController {
     }
   };
 
+  kickMentor = async (req, res) => {
+    const { questionId } = req.body;
+    console.log(req.body, "req body");
+    try {
+      const questionData = await this.model.findByPk(questionId);
+      console.log(questionData, "questionData before update");
+      questionData.update({
+        mentorId: null,
+        //add a mentorId here
+      });
+      console.log(questionData, "questionData after update");
+      return res.json(questionData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
   updateOneStatus = async (req, res) => {
     const { questionId } = req.body;
     console.log(req.body, "req body");
@@ -134,7 +151,6 @@ class UserController extends BaseController {
       console.log(questionData, "questionData before update");
       questionData.update({
         solved: true,
-        //change status solved here when mentorId accepts
       });
       console.log(questionData, "questionData after update");
       return res.json(questionData);

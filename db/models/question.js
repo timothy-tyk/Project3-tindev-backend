@@ -46,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      mentorList: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+      },
       mentorId: {
         type: DataTypes.INTEGER,
         references: {

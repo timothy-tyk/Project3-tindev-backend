@@ -14,6 +14,7 @@ class QuestionRouter {
     router.put("/updateMentor", this.controller.updateOneMentor);
     router.put("/updateStatus", this.controller.updateOneStatus);
     router.get("/users/:userId", this.controller.getAllFromUser);
+    router.put("/kickMentor", this.controller.kickMentor);
     return router;
   }
 }
