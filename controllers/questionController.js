@@ -153,7 +153,13 @@ class UserController extends BaseController {
         solved: true,
       });
       console.log(questionData, "questionData after update");
-      return res.json(questionData);
+
+      const userData = await this.userModel.findByPk(questionData.mentorId);
+      let tokens = userData.tokens;
+      userData.update({
+        tokens: (tokens += questionData.tokensOffered),
+      });
+      return res.json(userData, "userData after update");
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
