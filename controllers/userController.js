@@ -128,6 +128,21 @@ class UserController extends BaseController {
       return res.status(400).json({ error: true, msg: err });
     }
   };
+
+  updateLocation = async (req, res) => {
+    const { userId } = req.params;
+    const { location } = req.body;
+    console.log(userId, location);
+    try {
+      const user = await this.model.findByPk(userId);
+      await user.update({ location: location });
+      await user.save();
+      return res.json(user);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
 }
 
 module.exports = UserController;
