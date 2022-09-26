@@ -29,7 +29,7 @@ class LobbyController extends BaseController {
     try {
       const questions = await this.questionModel.findAll({
         include: [{ model: this.userModel, as: "menteeIdAlias" }],
-        order: [["id", "ASC"]],
+        order: [["id", "DESC"]],
         where: { lobbyId: Number(lobbyId) },
       });
       return res.json(questions);

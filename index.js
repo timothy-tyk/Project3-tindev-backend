@@ -72,7 +72,7 @@ socketIO.on("connection", (socket) => {
   });
   socket.on("send_question_message", (data) => {
     console.log(data);
-    socket.to(data.room).emit("received_question_message", data);
+    socket.to(data.question).emit("received_question_message", data);
   });
 
   socket.on("reply", () => console.log("replied"));
