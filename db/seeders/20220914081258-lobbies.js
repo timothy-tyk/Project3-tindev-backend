@@ -4,15 +4,43 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("lobbies", [
       {
-        name: "FullStack",
-        number_online: 6,
+        name: "React",
+        number_online: 0,
         // messages: [],
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "FrontEnd",
-        number_online: 12,
+        name: "Sequelize",
+        number_online: 0,
+        // messages: [],
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: "Auth0",
+        number_online: 0,
+        // messages: [],
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: "Material UI",
+        number_online: 0,
+        // messages: [],
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: "ExpressJS",
+        number_online: 0,
+        // messages: [],
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: "NodeJS",
+        number_online: 0,
         // messages: [],
         created_at: new Date(),
         updated_at: new Date(),
