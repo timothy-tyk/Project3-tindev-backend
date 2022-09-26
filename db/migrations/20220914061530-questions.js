@@ -25,6 +25,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      mentor_list: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+      },
       mentor_id: {
         type: Sequelize.INTEGER,
       },

@@ -126,17 +126,49 @@ class UserController extends BaseController {
     }
   };
 
-  updateOneStatus = async (req, res) => {
+  kickMentor = async (req, res) => {
     const { questionId } = req.body;
     console.log(req.body, "req body");
     try {
       const questionData = await this.model.findByPk(questionId);
       console.log(questionData, "questionData before update");
       questionData.update({
-        solved: true,
-        //change status solved here when mentorId accepts
+        mentorId: null,
+        //add a mentorId here
       });
       console.log(questionData, "questionData after update");
+      return res.json(questionData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  };
+
+  updateOneStatus = async (req, res) => {
+    const { questionId } = req.body;
+    console.log(questionId, "qns id, UPDATING!! STATUS!!!");
+    try {
+      const questionData = await this.model.findByPk(questionId);
+      console.log(questionData, "questionData before update");
+      await questionData.update({
+        solved: true,
+      });
+      console.log(questionData, "questionData after update");
+      if (questionData.mentorId) {
+        const mentorData = await this.userModel.findByPk(questionData.mentorId);
+        let mentorTokens = mentorData.tokens;
+        await mentorData.update({
+          tokens: (mentorTokens += questionData.tokensOffered),
+        });
+        console.log(mentorData, "mentorData aft update");
+        const menteeData = await this.userModel.findByPk(questionData.menteeId);
+        let menteeTokens = menteeData.tokens;
+        await menteeData.update({
+          tokens: (menteeTokens -= questionData.tokensOffered),
+        });
+        console.log(menteeData, "menteeData aft update");
+      }
+
+      console.log("check userData after update");
       return res.json(questionData);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
