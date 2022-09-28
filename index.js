@@ -64,15 +64,23 @@ socketIO.on("connection", (socket) => {
     socket.join(data.room);
   });
   socket.on("send_message", (data) => {
-    console.log(data);
     socket.to(data.room).emit("received_message", data);
   });
+
   socket.on("join_question", (data) => {
     socket.join(data.question);
   });
   socket.on("send_question_message", (data) => {
     console.log(data);
     socket.to(data.questionId).emit("received_question_message", data);
+  });
+
+  socket.on("update_lobby_number", (data) => {
+    socket.to(data.room).emit("received_update_request", data);
+  });
+
+  socket.on("something_has_updated", (data) => {
+    socket.to(data.room).emit("update_the_frontend", data);
   });
 
   socket.on("reply", () => console.log("replied"));
